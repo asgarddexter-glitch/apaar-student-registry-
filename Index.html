@@ -1,0 +1,494 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>APAAR Student Registry</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: ministry-portal frame. Navy header band, tricolour hairline, tabbed workspace below, dense tables for officers. */
+:root{--bg:#F2F4F8;--surface:#FFFFFF;--surface2:#F6F8FC;--ink:#14213D;--muted:#566176;--line:#D5DCE7;--primary:#1B3A6B;--onprimary:#FFFFFF;--accent:#D96C00;--good:#1F7A3F;--goodbg:#E3F3E8;--warn:#8A5200;--warnbg:#FFF1D6;--bad:#B42318;--badbg:#FDE7E4;--info:#1B3A6B;--infobg:#E4ECF9;--hdr:#14284B;--hdrink:#FFFFFF;--bar:#2F5DA8;--serif:'Source Serif 4',Georgia,'Times New Roman',serif;--sans:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1626;--surface:#16213A;--surface2:#1B2846;--ink:#E8EDF6;--muted:#9BA8BF;--line:#2B3A5C;--primary:#3F6FC4;--onprimary:#FFFFFF;--accent:#F0953A;--good:#7CD39A;--goodbg:#17382A;--warn:#F2B861;--warnbg:#3C2C10;--bad:#FF9A8F;--badbg:#431B18;--info:#9DBBF0;--infobg:#1E3159;--hdr:#0A1224;--bar:#6A9BEA;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1626;--surface:#16213A;--surface2:#1B2846;--ink:#E8EDF6;--muted:#9BA8BF;--line:#2B3A5C;--primary:#3F6FC4;--onprimary:#FFFFFF;--accent:#F0953A;--good:#7CD39A;--goodbg:#17382A;--warn:#F2B861;--warnbg:#3C2C10;--bad:#FF9A8F;--badbg:#431B18;--info:#9DBBF0;--infobg:#1E3159;--hdr:#0A1224;--bar:#6A9BEA;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:21px}h3{font-size:16px}
+p{margin:0}
+.in{max-width:1260px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tri{height:5px;background:linear-gradient(90deg,#E8842A 0 33.3%,#F4F6FA 33.3% 66.6%,#2E8B4F 66.6%)}
+.hdr{background:var(--hdr);color:var(--hdrink)}
+.hdr .in{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;padding-block:14px}
+.brand{display:flex;gap:14px;align-items:center;min-width:0}
+.seal{width:44px;height:44px;border-radius:50%;border:2px solid #E8842A;display:grid;place-items:center;font:600 11px/1 var(--mono);letter-spacing:.04em;flex:none}
+.brand h1{font-size:20px;color:var(--hdrink)}
+.brand small{display:block;opacity:.78;font-size:12px;margin-top:2px}
+.who{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px}
+.who label{opacity:.8;display:flex;flex-direction:column;gap:3px}
+.who select{background:rgba(255,255,255,.1);color:var(--hdrink);border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:7px 8px;font:13px var(--sans);min-width:0;max-width:260px}
+.who select option{color:#14213D;background:#fff}
+nav.tabs{background:var(--surface);border-bottom:1px solid var(--line)}
+nav.tabs .in{display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:13px 16px;font:600 13px var(--sans);color:var(--muted);cursor:pointer;white-space:nowrap}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+main.in{padding-top:22px;padding-bottom:36px;display:flex;flex-direction:column;gap:20px}
+.head{display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between;align-items:flex-end}
+.head p{color:var(--muted);max-width:70ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.card>h3{margin-bottom:4px}
+.card .sub{color:var(--muted);font-size:13px;margin-bottom:14px;max-width:80ch}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--primary);border-radius:6px;padding:12px 14px}
+.kpi.a{border-top-color:var(--accent)}.kpi.b{border-top-color:var(--bad)}.kpi.g{border-top-color:var(--good)}
+.kpi span{display:block;font-size:12px;color:var(--muted)}
+.kpi b{font:600 26px/1.2 var(--serif);font-variant-numeric:tabular-nums}
+.kpi em{display:block;font-style:normal;font-size:12px;color:var(--muted)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--goodbg);color:var(--good)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.info{background:var(--infobg);color:var(--info)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table.t{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+table.t th{background:var(--surface2);text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t tr:last-child td{border-bottom:0}
+table.t td.n,table.t th.n{text-align:right}
+.mono{font-family:var(--mono);font-size:12.5px}
+.btn{font:600 13px var(--sans);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:4px;cursor:pointer}
+.btn:hover{border-color:var(--primary)}
+.btn.p{background:var(--primary);border-color:var(--primary);color:var(--onprimary)}
+.btn.p:hover{filter:brightness(1.1)}
+.btn.s{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+input[type=text],select.f,textarea,input[type=number]{font:13px var(--sans);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:8px 10px;min-width:0;max-width:100%}
+textarea{width:100%;font:12px/1.5 var(--mono);min-height:210px;resize:vertical}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.ubar{display:grid;grid-template-columns:minmax(120px,210px) 1fr 52px;gap:10px;align-items:center;padding:3px 0;font-size:12.5px}
+.ubar .ul{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk{position:relative;height:12px;background:var(--surface2);border-radius:2px;border:1px solid var(--line)}
+.trk i{position:absolute;inset:0 auto 0 0;background:var(--bar);border-radius:1px}
+.trk i.warn{background:#D9A100}.trk i.bad{background:var(--bad)}
+.trk b{position:absolute;top:-4px;bottom:-4px;left:66.67%;width:2px;background:var(--ink);opacity:.75}
+.uv{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.scroll{max-height:420px;overflow-y:auto;padding-right:4px}
+.stack{display:flex;height:22px;border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.stack span{display:block;height:100%}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:var(--muted)}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.fun{display:flex;flex-direction:column;gap:8px}
+.fun div{display:grid;grid-template-columns:minmax(140px,230px) 1fr 64px;gap:10px;align-items:center;font-size:12.5px}
+.fun i{display:block;height:20px;background:var(--bar);border-radius:2px}
+.find{display:flex;flex-direction:column;gap:3px;font-size:12.5px;min-width:220px}
+.find span.c{font-family:var(--mono);font-size:11.5px;margin-right:6px;padding:1px 5px;border-radius:3px;background:var(--surface2);border:1px solid var(--line)}
+.find small{color:var(--muted);display:block}
+.note{border-left:3px solid var(--accent);background:var(--surface2);padding:10px 14px;font-size:13px;color:var(--muted);border-radius:0 4px 4px 0}
+.banner{padding:10px 14px;border-radius:4px;font-weight:600;font-size:13px}
+.banner.ok{background:var(--goodbg);color:var(--good)}.banner.bad{background:var(--badbg);color:var(--bad)}
+details.rk{border:1px solid var(--line);border-radius:6px;background:var(--surface);margin-bottom:8px}
+details.rk summary{cursor:pointer;display:grid;grid-template-columns:minmax(150px,1fr) 120px 80px;gap:12px;align-items:center;padding:10px 14px;list-style:none;font-size:13px}
+details.rk summary::-webkit-details-marker{display:none}
+details.rk .bd{padding:4px 14px 14px;display:flex;flex-direction:column;gap:8px}
+.fx{display:grid;grid-template-columns:170px 1fr 44px;gap:10px;align-items:center;font-size:12.5px}
+.fx .trk{height:8px}
+.phone{max-width:380px;border:2px solid var(--ink);border-radius:22px;padding:18px;background:var(--surface);display:flex;flex-direction:column;gap:12px}
+.tg{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.tg:last-of-type{border-bottom:0}
+.tg input{width:18px;height:18px;accent-color:var(--primary)}
+.cred{border:2px solid var(--good);border-radius:6px;padding:16px;display:grid;grid-template-columns:1fr auto;gap:16px;background:var(--surface)}
+.cred.rev{border-color:var(--bad)}
+.cred dl{margin:0;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-size:13px}
+.cred dt{color:var(--muted)}.cred dd{margin:0;word-break:break-word}
+.fp{width:104px;height:104px;border:1px solid var(--line);border-radius:4px;background:var(--surface2)}
+.cert{background:#FFFDF6;color:#1A1A1A;border:3px double #7A5A1E;padding:34px 30px;max-width:760px;margin:0 auto;text-align:center;font-family:var(--serif)}
+.cert h2{font-size:26px;color:#4A3510;letter-spacing:.02em}
+.cert .nm{font-size:30px;margin:10px 0;border-bottom:1px solid #7A5A1E;display:inline-block;padding:0 24px 4px;font-weight:600}
+.cert .ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 20px;margin:22px auto 0;text-align:left;font:13px var(--sans);max-width:560px}
+.cert .ids b{display:block;font:11px var(--mono);color:#7A5A1E;letter-spacing:.08em;text-transform:uppercase}
+.cert .apaar{font:600 17px var(--mono);letter-spacing:.06em}
+.cert .ft{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:26px;font:12px var(--sans);text-align:left;color:#4A4A4A}
+.rules td input[type=number]{width:84px}
+footer.in{padding-bottom:30px;color:var(--muted);font-size:12px;max-width:1260px}
+@media (max-width:560px){.ubar{grid-template-columns:96px 1fr 44px}.cred{grid-template-columns:1fr}.cred dl{grid-template-columns:1fr}.fx{grid-template-columns:110px 1fr 40px}details.rk summary{grid-template-columns:1fr 90px}details.rk summary span:last-child{display:none}.fun div{grid-template-columns:100px 1fr 54px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="tri"></div>
+<header class="hdr"><div class="in">
+  <div class="brand"><div class="seal" aria-hidden="true">SDMVS</div>
+    <div><h1>APAAR Student Registry</h1><small>Student Data Management and Verification System · prototype for integration with the AICTE portal</small></div></div>
+  <div class="who">
+    <label>Signed in as<select id="role" aria-label="Demo role"><option value="aicte">AICTE officer</option><option value="inst">Institution nodal officer</option><option value="verifier">Verifier (employer or regulator)</option></select></label>
+    <label id="instWrap" hidden>Institution<select id="instSel" aria-label="Institution"></select></label>
+  </div>
+</div></header>
+<nav class="tabs" aria-label="Sections"><div class="in" id="tabs" role="tablist"></div></nav>
+<main class="in" id="view"></main>
+<footer class="in">Prototype built on synthetic data. No real student, institution or APAAR record is used. The APAAR checksum here is a stand-in (Verhoeff) because the production ID algorithm and registry API are issued by the APAAR authority. Signing keys are generated in your browser for demonstration; a deployment would hold them in an HSM.</footer>
+
+<script>
+(()=>{'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('en-IN');
+const pc=(a,b)=>b?Math.round(a/b*1000)/10:0;
+const sum=(a,f)=>a.reduce((x,y)=>x+f(y),0);
+const grp=a=>String(a).replace(/(\d{4})(?=\d)/g,'$1 ');
+const maskA=a=>a?'XXXX XXXX '+a.slice(-4):'(missing)';
+const maskN=n=>{const p=String(n).split(' ');return p[0].charAt(0)+'. '+p.slice(1).join(' ')};
+const pill=(k,t)=>`<span class="pill ${k}">${esc(t)}</span>`;
+const when=t=>new Date(t).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false});
+
+/* ---------- identifiers (prototype checksum) ---------- */
+const VD=[[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,0,1,2,8,9,5,6,7],[4,0,1,2,3,9,5,6,7,8],[5,9,8,7,6,0,4,3,2,1],[6,5,9,8,7,1,0,4,3,2],[7,6,5,9,8,2,1,0,4,3],[8,7,6,5,9,3,2,1,0,4],[9,8,7,6,5,4,3,2,1,0]];
+const VP=[[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
+const VI=[0,4,3,2,1,5,6,7,8,9];
+const vOk=n=>{let c=0;n.split('').reverse().forEach((d,i)=>{c=VD[c][VP[i%8][+d]]});return c===0};
+const vGen=b=>{let c=0;b.split('').reverse().forEach((d,i)=>{c=VD[c][VP[(i+1)%8][+d]]});return b+VI[c]};
+
+/* ---------- name similarity (bigram Dice) ---------- */
+const bg=s=>{s=s.toLowerCase().replace(/[^a-z]/g,'');const m=new Map();for(let i=0;i<s.length-1;i++){const k=s.substr(i,2);m.set(k,(m.get(k)||0)+1)}return m};
+const sim=(a,b)=>{if(a===b)return 1;const A=bg(a),B=bg(b);let x=0,ta=0,tb=0;A.forEach(v=>ta+=v);B.forEach(v=>tb+=v);A.forEach((v,k)=>{if(B.has(k))x+=Math.min(v,B.get(k))});return ta+tb?2*x/(ta+tb):0};
+
+/* ---------- synthetic data ---------- */
+let seed=20261022;
+const R=()=>{seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const pick=a=>a[Math.floor(R()*a.length)];
+const FM=['Aarav','Vivaan','Aditya','Arjun','Karthik','Rohan','Siddharth','Harish','Naveen','Pranav','Rahul','Vikram','Manoj','Dinesh','Suresh','Anil','Imran','Faisal','Gurpreet','Jaspreet'];
+const FF=['Ananya','Diya','Kavya','Meera','Nisha','Priya','Riya','Sneha','Divya','Lakshmi','Pooja','Shreya','Fatima','Ayesha','Harleen','Ishita'];
+const LN=['Sharma','Iyer','Reddy','Nair','Patel','Gupta','Singh','Kumar','Das','Menon','Pillai','Khan','Joshi','Mehta','Banerjee','Chatterjee','Rao','Naidu','Verma','Yadav','Shetty','Kulkarni','Desai','Mishra','Chauhan','Bose','Sethi','Thomas','Fernandes'];
+const INST=[['TN-0142','Cauvery Institute of Technology','Tamil Nadu','E'],['MH-0378','Sahyadri College of Engineering','Maharashtra','E'],['KA-0215','Malnad School of Management','Karnataka','M'],['UP-0661','Gomti Institute of Engineering','Uttar Pradesh','E'],['GJ-0190','Narmada Technical Campus','Gujarat','E'],['WB-0432','Hooghly Polytechnic Institute','West Bengal','D'],['RJ-0507','Aravalli Institute of Management','Rajasthan','M'],['TS-0288','Deccan College of Pharmacy','Telangana','P'],['KL-0119','Periyar Institute of Technology','Kerala','E'],['OD-0344','Mahanadi Engineering College','Odisha','E']].map(x=>({id:x[0],name:x[1],state:x[2],kind:x[3],short:x[1].split(' ')[0]}));
+const PT={E:[['CSE','B.E. Computer Science and Engineering','UG'],['ECE','B.E. Electronics and Communication','UG'],['MEC','B.E. Mechanical Engineering','UG']],M:[['PGDM','PGDM','PG'],['MBA','MBA','PG'],['MCA','MCA','PG']],P:[['BPH','B.Pharm','UG'],['DPH','D.Pharm','Diploma'],['MPH','M.Pharm','PG']],D:[['DME','Diploma in Mechanical Engg','Diploma'],['DCE','Diploma in Civil Engg','Diploma'],['DEE','Diploma in Electrical Engg','Diploma']]};
+const IN={E:[60,90,120,180],M:[60,120],P:[60,100],D:[60,90]};
+const INSTM={},PROG={},PROGS=[],BURST={};
+INST.forEach(i=>{INSTM[i.id]=i;PT[i.kind].forEach((t,j)=>{const intake=pick(IN[i.kind]);const p={id:i.id+'/'+t[0],inst:i.id,code:t[0],name:t[1],level:t[2],intake,superAllow:Math.max(4,Math.round(intake*0.1)),j};PROG[p.id]=p;PROGS.push(p);BURST[p.id]=0.05+R()*0.22})});
+const OVER1='UP-0661/CSE',OVER2='RJ-0507/MBA',MID='MH-0378/MEC';
+BURST[OVER2]=0.74;BURST[MID]=0.52;
+const REG=new Map();
+const newApaar=()=>{let a;do{let b='';for(let i=0;i<11;i++)b+=Math.floor(R()*10);if(b[0]==='0')b='7'+b.slice(1);a=vGen(b)}while(REG.has(a));return a};
+const rdob=lv=>{const y=lv==='UG'?2006+Math.floor(R()*3):lv==='Diploma'?2008+Math.floor(R()*3):1999+Math.floor(R()*6);return y+'-'+String(1+Math.floor(R()*12)).padStart(2,'0')+'-'+String(1+Math.floor(R()*28)).padStart(2,'0')};
+const CATS=['General','General','General','General','General','OBC','OBC','OBC','SC','SC','ST','EWS','EWS'];
+let sidN=1;
+const mkRow=(p,seat)=>{const g=R()<0.68?'M':'F';const name=pick(g==='M'?FM:FF)+' '+pick(LN);const dob=rdob(p.level);const a=newApaar();REG.set(a,{name,dob});
+ const sp=seat==='Regular'?'':seat==='Supernumerary'?'TFW-26-'+(100+Math.floor(R()*800)):seat==='NRI'?'NRI-AFF-'+(1000+Math.floor(R()*8000)):seat==='OCI'?'OCI-'+(700000+Math.floor(R()*200000)):'PP-'+(Math.floor(R()*9e6)+1e6);
+ return{apaar:a,sid:p.inst.slice(0,2)+p.code+'26'+String(sidN++).padStart(4,'0'),name,dob,gender:g,inst:p.inst,prog:p.id,seat,cat:(seat==='NRI'||seat==='OCI'||seat==='FN')?'NA':pick(CATS),nat:seat==='FN'?pick(['Nepal','Bhutan','Sri Lanka','Nigeria','Bangladesh']):seat==='OCI'?pick(['USA','UK','Canada']):'India',doc:sp}};
+const raw=[];
+PROGS.forEach(p=>{
+ let N=p.j===0?p.intake-4:Math.round(p.intake*(0.8+R()*0.15));
+ if(p.id===OVER1)N=p.intake+12;if(p.id===OVER2)N=Math.round(p.intake*1.45);
+ const nri=Math.round(p.intake*(p.id===OVER2?0.3:0.04));
+ const seats=[];for(let i=0;i<Math.round(p.superAllow*0.5);i++)seats.push('Supernumerary');for(let i=0;i<nri;i++)seats.push('NRI');if(R()<.6)seats.push('OCI');if(R()<.6)seats.push('FN');
+ if(p.j===0&&p.id!==OVER1&&p.id!==OVER2)N=p.intake-4+seats.filter(x=>x!=='NRI').length;
+ for(let i=0;i<N;i++)raw.push(mkRow(p,seats[i]||'Regular'));
+});
+const base=raw.slice();
+const alt=a=>a.slice(0,4)+String((+a[4]+1)%10)+a.slice(5);
+for(let i=0;i<14;i++){const s=pick(base);const r=mkRow(PROG[s.prog],'Regular');r.apaar=alt(r.apaar);raw.push(r)}
+for(let i=0;i<9;i++){const s=pick(base);const r=mkRow(PROG[s.prog],'Regular');r.apaar='';raw.push(r)}
+for(let i=0;i<10;i++){const s=pick(base);raw.push(Object.assign({},s,{sid:s.sid+'-R'}))}
+for(let i=0;i<7;i++){const s=pick(base);const o=pick(PROGS.filter(p=>p.inst!==s.inst&&p.level===PROG[s.prog].level));raw.push(Object.assign({},s,{sid:o.inst.slice(0,2)+o.code+'26X'+(100+i),inst:o.inst,prog:o.id}))}
+for(let i=0;i<6;i++){const s=pick(base);const a=newApaar();const nm=s.name+s.name.slice(-1);REG.set(a,{name:nm,dob:s.dob});raw.push(Object.assign({},s,{apaar:a,name:nm,sid:s.sid+'-B'}))}
+for(let i=0;i<8;i++){const s=pick(base);const r=mkRow(PROG[s.prog],'Regular');if(i<3)r.dob=r.dob.slice(0,8)+(r.dob.slice(8)==='05'?'06':'05');else r.name=r.name.split(' ')[0]+' '+pick(LN.filter(x=>x!==r.name.split(' ')[1]));raw.push(r)}
+
+/* ---------- validation engine ---------- */
+const rules={warnPct:90,fuzzy:0.88,nameMatch:0.85,minAge:16,maxAge:45,intake:true,cross:true,dup:true};
+let rulesVer='1.3';
+const seatClass=s=>(s==='Regular'||s==='NRI')?'main':'sup';
+const SEATS=['Regular','NRI','Supernumerary','OCI','FN'];
+function engine(rows,repo){
+ const byA=new Map(),byDob=new Map(),counts=new Map();
+ PROGS.forEach(p=>counts.set(p.id,{main:0,sup:0}));
+ const ix=s=>{byA.set(s.apaar,s);if(!byDob.has(s.dob))byDob.set(s.dob,[]);byDob.get(s.dob).push(s)};
+ repo.forEach(s=>{ix(s);counts.get(s.prog)[seatClass(s.seat)]++});
+ const accepted=[];
+ const results=rows.map(r=>{
+  const f=[];const add=(code,sev,msg,fix)=>f.push({code,sev,msg,fix});
+  const prog=PROG[r.prog];
+  if(!prog)add('E11','rej','Programme is not approved for this institution','Use a programme code from the approval letter');
+  const a=String(r.apaar||'').replace(/\s/g,'');let reg=null;
+  if(!a)add('E01','hold','APAAR ID is missing','Add the 12-digit ID. The row waits in the grace queue');
+  else if(!/^\d{12}$/.test(a)||!vOk(a))add('E02','rej','APAAR ID fails format or checksum','Re-enter the ID exactly as printed on the APAAR card');
+  else{reg=REG.get(a);if(!reg)add('E03','rej','APAAR ID not found in the registry','Ask the student to confirm or create the ID')}
+  if(reg){
+   if(reg.dob!==r.dob)add('E06','rej','Date of birth differs from the APAAR record','Correct the date, or ask the student to update APAAR');
+   else if(sim(reg.name,r.name)<rules.nameMatch)add('E07','warn','Name differs from the APAAR record','Confirm the spelling against APAAR');
+   const ex=byA.get(a);
+   if(ex&&ex.inst===r.inst)add('E04','rej','Duplicate of '+ex.sid+' already on file','Remove the repeated row');
+   else if(ex&&rules.cross)add('X07','hold','Already enrolled at '+INSTM[ex.inst].name,'Resolve with the other institution. Both are notified');
+   if(rules.dup&&!f.some(x=>x.sev!=='warn')){(byDob.get(r.dob)||[]).forEach(c=>{if(c.apaar!==a&&sim(c.name,r.name)>=rules.fuzzy&&!f.some(x=>x.code==='W05'))add('W05','warn','Resembles '+maskN(c.name)+' ('+c.sid+') with a different APAAR ID','Confirm these are two different students')})}
+  }
+  if(r.seat==='FN'&&(!r.nat||r.nat==='India'||!r.doc))add('E09','rej','Foreign National needs a nationality and passport reference','Fill nationality and doc_ref');
+  if(r.seat==='OCI'&&!r.doc)add('E09','rej','OCI status needs an OCI card reference','Fill doc_ref');
+  if(r.seat==='NRI'&&!r.doc)add('E10','hold','NRI seat needs a sponsor affidavit reference','Fill doc_ref');
+  if(r.seat==='Supernumerary'&&!r.doc)add('E10','hold','Supernumerary seat needs a scheme code','Fill doc_ref with the scheme code');
+  if(!SEATS.includes(r.seat))add('E09','rej','Unknown seat type','Use Regular, NRI, Supernumerary, OCI or FN');
+  const age=(Date.UTC(2026,7,1)-Date.parse(r.dob))/3.156e10;
+  if(isNaN(age))add('E08','rej','Date of birth is not a valid date','Use YYYY-MM-DD');
+  else if(age<rules.minAge||age>rules.maxAge)add('W06','warn','Age '+Math.floor(age)+' is outside the expected range','Confirm the date of birth');
+  if(prog&&rules.intake&&!f.some(x=>x.sev==='rej'||x.sev==='hold')){
+   const c=counts.get(prog.id),k=seatClass(r.seat),cap=k==='main'?prog.intake:prog.superAllow;
+   if(c[k]+1>cap)add('X08','hold','Exceeds approved '+(k==='main'?'intake':'supernumerary limit')+' ('+(c[k]+1)+' of '+cap+')','File a justification for AICTE review');
+   else if(k==='main'&&c[k]+1===Math.ceil(cap*rules.warnPct/100))add('W08','warn',rules.warnPct+'% of approved intake reached','Plan remaining admissions against '+cap+' seats');
+  }
+  const status=f.some(x=>x.sev==='rej')?'Rejected':f.some(x=>x.sev==='hold')?'Held':f.some(x=>x.sev==='warn')?'Accepted with warning':'Accepted';
+  let st=null;
+  if(status.indexOf('Accepted')===0){st=Object.assign({},r,{apaar:a,flags:f.filter(x=>x.sev==='warn')});accepted.push(st);ix(st);counts.get(prog.id)[seatClass(r.seat)]++}
+  return{row:r,flags:f,status,student:st};
+ });
+ return{results,accepted};
+}
+let repo=[],quar=[];
+{const e=engine(raw,[]);repo=e.accepted;e.results.forEach(x=>{if(!x.student)quar.push({row:x.row,flags:x.flags,status:x.status})})}
+
+/* ---------- statistics and risk ---------- */
+let ST={},RISK={};
+function recompute(){
+ PROGS.forEach(p=>{const rp=repo.filter(s=>s.prog===p.id),main=rp.filter(s=>seatClass(s.seat)==='main').length,qq=quar.filter(q=>q.row.prog===p.id);
+  ST[p.id]={rp:rp.length,main,sup:rp.length-main,qq:qq.length,heldX:qq.filter(q=>q.flags.some(f=>f.code==='X08')).length,spec:rp.filter(s=>s.seat==='NRI'||s.seat==='OCI'||s.seat==='FN').length,dupW:rp.filter(s=>s.flags.some(f=>f.code==='W05')).length,mism:rp.filter(s=>s.flags.some(f=>f.code==='E07')).length,sub:rp.length+qq.length,ratio:main/p.intake}});
+ const rs=PROGS.map(p=>ST[p.id].ratio),mean=sum(rs,x=>x)/rs.length,sd=Math.sqrt(sum(rs,x=>(x-mean)**2)/rs.length)||1;
+ PROGS.forEach(p=>{const s=ST[p.id],z=(s.ratio-mean)/sd,F=[];
+  F.push(['Intake pressure',Math.min(40,Math.max(0,z)*12+(s.heldX?18:0)),40,'Utilisation '+Math.round(s.ratio*100)+'% against a peer average of '+Math.round(mean*100)+'%'+(s.heldX?'; '+s.heldX+' admissions held above intake':'')]);
+  F.push(['Rejected or held rows',Math.min(20,pc(s.qq,s.sub)*2),20,s.qq+' of '+s.sub+' submitted rows need correction']);
+  F.push(['Late upload burst',Math.min(15,Math.max(0,BURST[p.id]-0.3)*45),15,Math.round(BURST[p.id]*100)+'% of rows arrived in the last 24 hours before the deadline']);
+  F.push(['Seat-category skew',Math.min(15,Math.max(0,s.spec/Math.max(1,s.rp)-0.08)*100),15,'NRI, OCI and FN seats are '+Math.round(s.spec/Math.max(1,s.rp)*100)+'% of enrolment']);
+  F.push(['Resemblance and mismatch',Math.min(10,(s.dupW+s.mism)*3),10,s.dupW+' probable duplicates and '+s.mism+' name mismatches']);
+  const score=Math.min(100,Math.round(sum(F,x=>x[1])));RISK[p.id]={score,F,tier:score>=60?'High':score>=30?'Medium':'Low'}});
+}
+recompute();
+
+/* ---------- audit ledger and signing ---------- */
+const enc=s=>new TextEncoder().encode(s);
+const HAS=!!(window.crypto&&crypto.subtle);
+async function sha(s){if(HAS){const b=await crypto.subtle.digest('SHA-256',enc(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16).padStart(8,'0').repeat(8)}
+const audit=[];let aq=Promise.resolve();
+const ZERO='0'.repeat(64);
+function logA(actor,role,action,detail,ts){aq=aq.then(async()=>{const prev=audit.length?audit[audit.length-1].hash:ZERO,e={seq:audit.length+1,ts:ts||Date.now(),actor,role,action,detail,prev};e.hash=await sha([prev,e.seq,e.ts,actor,role,action,detail].join('|'));audit.push(e);if(S.tab==='audit')render()});return aq}
+let KEY=null;
+const b64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf)));
+
+/* ---------- state ---------- */
+const S={role:'aicte',inst:INST[0].id,tab:'overview',cases:{},notified:{},csv:'',res:null,committed:false,V:{step:1,apaar:'',org:'emp',purpose:'Employment verification',cred:null,msg:''},cert:null,chain:null};
+const TABS={aicte:[['overview','Overview'],['cases','Cases and risk'],['verify','Verification'],['audit','Audit ledger'],['rules','Rules']],inst:[['submit','Submit data'],['overview','Seat ledger'],['certificate','Certificates']],verifier:[['verify','Verification']]};
+const ROLEN={aicte:'AICTE officer',inst:'Institution nodal officer',verifier:'Verifier'};
+const scope=()=>S.role==='inst'?PROGS.filter(p=>p.inst===S.inst):PROGS;
+const actor=()=>S.role==='aicte'?'aicte.officer':S.role==='inst'?'nodal.'+S.inst.toLowerCase():'verifier.guest';
+
+/* ---------- views ---------- */
+const head=(t,p,x)=>`<div class="head"><div><h2>${t}</h2><p>${p}</p></div>${x||''}</div>`;
+function stat(p){const s=ST[p.id];return s.ratio>1?['bad','Over intake']:s.heldX||s.ratio>=0.9?['warn','Near limit']:['ok','Within intake']}
+
+function vOverview(){
+ const P=scope(),ids=new Set(P.map(p=>p.id)),rp=repo.filter(s=>ids.has(s.prog)),qq=quar.filter(q=>ids.has(q.row.prog));
+ const intake=sum(P,p=>p.intake),main=rp.filter(s=>seatClass(s.seat)==='main').length;
+ const sub=rp.length+qq.length,c1=qq.filter(q=>q.flags.some(f=>['E01','E02','E03'].includes(f.code))).length,c2=qq.filter(q=>!q.flags.some(f=>['E01','E02','E03'].includes(f.code))&&q.flags.some(f=>['E04','E06','X07'].includes(f.code))).length;
+ const n2=sub-c1,n3=n2-c2,cover=pc(sub-c1,sub);
+ const rows=P.slice().sort((a,b)=>ST[b.id].ratio-ST[a.id].ratio);
+ const bars=rows.map(p=>{const r=ST[p.id].ratio,k=r>1?'bad':r>=0.9?'warn':'';return`<div class="ubar"><span class="ul" title="${esc(INSTM[p.inst].name+' · '+p.name)}">${S.role==='inst'?esc(p.name):esc(INSTM[p.inst].short+' · '+p.code)}</span><div class="trk"><i class="${k}" style="width:${Math.min(r,1.5)/1.5*100}%"></i><b></b></div><span class="uv">${Math.round(r*100)}%</span></div>`}).join('');
+ const SC={Regular:'#2F5DA8',NRI:'#D96C00',Supernumerary:'#2E8B4F',OCI:'#8A5CC2',FN:'#C23B6B'};
+ const cnt={};SEATS.forEach(s=>cnt[s]=rp.filter(x=>x.seat===s).length);
+ const stack=SEATS.map(s=>`<span style="width:${pc(cnt[s],rp.length)}%;background:${SC[s]}" title="${s}: ${cnt[s]}"></span>`).join('');
+ const leg=SEATS.map(s=>`<span><i style="background:${SC[s]}"></i>${s} ${fmt(cnt[s])}</span>`).join('');
+ const fun=[['Rows submitted',sub],['Valid, registry-matched APAAR ID',n2],['No identity or duplicate conflict',n3],['Accepted into repository',rp.length]].map(x=>`<div><span>${x[0]}</span><i style="width:${pc(x[1],sub)}%"></i><b class="mono">${fmt(x[1])}</b></div>`).join('');
+ let table;
+ if(S.role==='inst'){
+  table=`<div class="tw"><table class="t"><thead><tr><th>Programme</th><th class="n">Approved intake</th><th class="n">Admitted</th><th class="n">Headroom</th><th class="n">Supernumerary</th><th class="n">Held rows</th><th>Status</th></tr></thead><tbody>${P.map(p=>{const s=ST[p.id],st=stat(p);return`<tr><td>${esc(p.name)} <span class="mono">${p.code}</span></td><td class="n">${p.intake}</td><td class="n">${s.main}</td><td class="n">${p.intake-s.main}</td><td class="n">${s.sup} / ${p.superAllow}</td><td class="n">${s.qq}</td><td>${pill(st[0],st[1])}</td></tr>`}).join('')}</tbody></table></div>`;
+ }else{
+  table=`<div class="tw"><table class="t"><thead><tr><th>Institution</th><th>State</th><th class="n">Submitted</th><th class="n">Accepted</th><th class="n">Need action</th><th class="n">Utilisation</th><th>Risk</th></tr></thead><tbody>${INST.map(i=>{const pp=PROGS.filter(p=>p.inst===i.id),sb=sum(pp,p=>ST[p.id].sub),ac=sum(pp,p=>ST[p.id].rp),m=sum(pp,p=>ST[p.id].main),mx=pp.reduce((a,p)=>Math.max(a,RISK[p.id].score),0),t=mx>=60?['bad','High']:mx>=30?['warn','Medium']:['ok','Low'];return`<tr><td>${esc(i.name)}<br><span class="mono">${i.id}</span></td><td>${esc(i.state)}</td><td class="n">${fmt(sb)}</td><td class="n">${fmt(ac)}</td><td class="n">${fmt(sb-ac)}</td><td class="n">${pc(m,sum(pp,p=>p.intake))}%</td><td>${pill(t[0],t[1]+' ('+mx+')')}</td></tr>`}).join('')}</tbody></table></div>`;
+ }
+ return head(S.role==='inst'?'Seat ledger':'National overview',S.role==='inst'?esc(INSTM[S.inst].name)+'. Admitted students are counted against approved intake as each record is accepted.':'Every figure is computed from accepted, APAAR-verified student records. Rows that fail validation never enter these counts.',`<div>${pill('info','Academic year 2026-27')}</div>`)+
+ `<div class="kpis"><div class="kpi"><span>Students in repository</span><b>${fmt(rp.length)}</b><em>${fmt(qq.length)} rows need action</em></div><div class="kpi a"><span>Approved intake</span><b>${fmt(intake)}</b><em>${P.length} programmes</em></div><div class="kpi ${main>intake?'b':'g'}"><span>Intake utilisation</span><b>${pc(main,intake)}%</b><em>${fmt(main)} of ${fmt(intake)} seats</em></div><div class="kpi g"><span>Valid APAAR coverage</span><b>${cover}%</b><em>of submitted rows</em></div><div class="kpi b"><span>Programmes over intake</span><b>${P.filter(p=>ST[p.id].ratio>1).length}</b><em>${P.filter(p=>ST[p.id].heldX).length} with held admissions</em></div></div>`+
+ `<div class="g2"><div class="card"><h3>Intake utilisation by programme</h3><p class="sub">The dark line marks 100% of approved intake. Sorted from most to least utilised.</p><div class="scroll">${bars}</div></div>
+ <div style="display:flex;flex-direction:column;gap:20px;min-width:0"><div class="card"><h3>Seat types in the repository</h3><p class="sub">Regular and NRI seats count against intake. Supernumerary, OCI and FN seats count against the supernumerary limit.</p><div class="stack">${stack}</div><div class="leg">${leg}</div></div><div class="card"><h3>Validation funnel</h3><p class="sub">Where submitted rows drop out before reaching the repository.</p><div class="fun">${fun}</div></div></div></div>`+
+ `<div class="card"><h3>${S.role==='inst'?'Programme ledger':'Institutions'}</h3><p class="sub">${S.role==='inst'?'Headroom is approved intake minus admitted students. Rows that would exceed it are held for a justification.':'Risk is the highest explainable score among the institution\'s programmes.'}</p>${table}</div>`;
+}
+
+function vSubmit(){
+ const i=INSTM[S.inst],P=scope();
+ const r=S.res;
+ let out='';
+ if(r){
+  const c={a:0,w:0,h:0,x:0};r.results.forEach(x=>{if(x.status==='Accepted')c.a++;else if(x.status==='Accepted with warning')c.w++;else if(x.status==='Held')c.h++;else c.x++});
+  out=`<div class="card"><h3>Validation result</h3><p class="sub">${r.results.length} rows checked in order. Accepted rows count against intake immediately, so later rows in the same file see the updated seat count.</p>
+  <div class="row" style="margin-bottom:12px">${pill('ok',c.a+' accepted')}${pill('warn',c.w+' accepted with warning')}${pill('warn',c.h+' held')}${pill('bad',c.x+' rejected')}<span style="flex:1"></span><button class="btn p" data-act="commit" ${S.committed||c.a+c.w===0?'disabled':''}>${S.committed?'Committed':'Commit '+(c.a+c.w)+' accepted rows'}</button></div>
+  <div class="tw"><table class="t"><thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>APAAR ID</th><th>Programme</th><th>Seat</th><th>Outcome</th><th>Findings and fixes</th></tr></thead><tbody>${r.results.map((x,n)=>{const k=x.status==='Accepted'?'ok':x.status==='Accepted with warning'?'warn':x.status==='Held'?'warn':'bad';return`<tr><td>${n+1}</td><td class="mono">${esc(x.row.sid)}</td><td>${esc(x.row.name)}</td><td class="mono">${esc(x.row.apaar?grp(String(x.row.apaar).replace(/\s/g,'')):'')}</td><td>${esc(x.row.prog.split('/')[1])}</td><td>${esc(x.row.seat)}</td><td>${pill(k,x.status)}</td><td><div class="find">${x.flags.length?x.flags.map(f=>`<div><span class="c">${f.code}</span>${esc(f.msg)}<small>${esc(f.fix)}</small></div>`).join(''):'<span style="color:var(--muted)">No findings</span>'}</div></td></tr>`}).join('')}</tbody></table></div></div>`;
+ }
+ return head('Submit student data','Upload after admissions close, or push the same rows through the API. Each row is keyed by APAAR ID and checked before it can enter the central repository.',`<div>${pill('info',esc(i.name))}</div>`)+
+ `<div class="card"><h3>Admissions file</h3><p class="sub">Columns: apaar, student_id, name, dob, gender, programme, seat_type, category, nationality, doc_ref. The sample batch below deliberately contains problems so you can see each check fire.</p>
+ <textarea id="csv" spellcheck="false" aria-label="Admissions CSV">${esc(S.csv)}</textarea>
+ <div class="row" style="margin-top:12px"><button class="btn p" data-act="validate">Validate file</button><button class="btn" data-act="sample">Load sample batch</button><label class="btn" style="cursor:pointer">Choose CSV file<input id="file" type="file" accept=".csv,text/csv,text/plain" hidden></label><span style="color:var(--muted);font-size:12px">Validating twice is safe. Committed rows are caught as duplicates.</span></div></div>`+out+
+ `<div class="card"><h3>Live seat ledger for ${esc(i.short)}</h3><p class="sub">Updates as you commit. The dark line is approved intake.</p>${P.map(p=>{const s=ST[p.id],r2=s.ratio,k=r2>1?'bad':r2>=0.9?'warn':'';return`<div class="ubar"><span class="ul">${esc(p.name)}</span><div class="trk"><i class="${k}" style="width:${Math.min(r2,1.5)/1.5*100}%"></i><b></b></div><span class="uv">${s.main}/${p.intake}</span></div>`}).join('')}</div>`;
+}
+
+function maskTbl(rows){return rows}
+function vCases(){
+ const ex=PROGS.filter(p=>ST[p.id].heldX||S.cases[p.id]),cr=quar.filter(q=>q.flags.some(f=>f.code==='X07')),fz=repo.filter(s=>s.flags.some(f=>f.code==='W05'));
+ const exT=ex.length?`<div class="tw"><table class="t"><thead><tr><th>Programme</th><th class="n">Approved</th><th class="n">Admitted</th><th class="n">Held above intake</th><th>Decision</th><th></th></tr></thead><tbody>${ex.map(p=>{const s=ST[p.id],d=S.cases[p.id];return`<tr><td>${esc(INSTM[p.inst].name)}<br>${esc(p.name)}</td><td class="n">${p.intake}</td><td class="n">${s.main}</td><td class="n">${s.heldX}</td><td>${d==='approved'?pill('info','Approved with justification'):d==='rejected'?pill('bad','Rejected'):pill('warn','Pending review')}</td><td>${d?'':`<div class="row"><button class="btn s p" data-act="approve" data-id="${p.id}">Approve</button><button class="btn s" data-act="reject" data-id="${p.id}">Reject</button></div>`}</td></tr>`}).join('')}</tbody></table></div>`:'<p class="sub">No programme has held admissions.</p>';
+ const crT=`<div class="tw"><table class="t"><thead><tr><th>Student</th><th>APAAR ID</th><th>Already enrolled at</th><th>New claim from</th><th></th></tr></thead><tbody>${cr.map(q=>{const f=q.flags.find(x=>x.code==='X07'),k=q.row.apaar,ex2=repo.find(s=>s.apaar===k.replace(/\s/g,''));return`<tr><td>${esc(maskN(q.row.name))}</td><td class="mono">${maskA(k)}</td><td>${esc(ex2?INSTM[ex2.inst].name:'')}</td><td>${esc(INSTM[q.row.inst].name)}</td><td>${S.notified[q.row.sid]?pill('info','Both notified'):`<button class="btn s" data-act="notify" data-id="${esc(q.row.sid)}">Notify both</button>`}</td></tr>`}).join('')}</tbody></table></div>`;
+ const fzT=`<div class="tw"><table class="t"><thead><tr><th>Student ID</th><th>Name</th><th>Institution</th><th>Finding</th></tr></thead><tbody>${fz.slice(0,12).map(s=>`<tr><td class="mono">${esc(s.sid)}</td><td>${esc(maskN(s.name))}</td><td>${esc(INSTM[s.inst].short)}</td><td>${esc(s.flags.find(f=>f.code==='W05').msg)}</td></tr>`).join('')}</tbody></table></div>`;
+ const rk=PROGS.slice().sort((a,b)=>RISK[b.id].score-RISK[a.id].score).slice(0,8).map(p=>{const r=RISK[p.id],k=r.tier==='High'?'bad':r.tier==='Medium'?'warn':'ok';return`<details class="rk"><summary><span><b>${esc(INSTM[p.inst].short)}</b> · ${esc(p.name)}</span><span>${pill(k,r.tier+' risk')}</span><span class="mono">${r.score} / 100</span></summary><div class="bd">${r.F.map(f=>`<div class="fx"><span>${f[0]}</span><div class="trk"><i style="width:${f[1]/f[2]*100}%"></i></div><b class="mono">${Math.round(f[1])}</b></div><div style="color:var(--muted);font-size:12px;margin:-4px 0 2px">${esc(f[3])}</div>`).join('')}<p class="note">A flag opens a review. Nothing is penalised automatically, and caste or category data is never used as a model input.</p></div></details>`}).join('');
+ return head('Cases and risk','The work queue for AICTE officers. Personal details are masked in lists and shown in full only inside a case.')+
+ `<div class="card"><h3>Admissions above approved intake</h3><p class="sub">Approving moves the held rows into the repository and marks them as AICTE-approved excess. Rejecting keeps them out.</p>${exT}</div>
+ <div class="card"><h3>Possible duplicate enrolment across institutions</h3><p class="sub">The same APAAR ID is active at one institution and claimed by another. The second claim is held until resolved.</p>${crT}</div>
+ <div class="g2"><div class="card"><h3>Probable duplicate identities</h3><p class="sub">Same date of birth, near-identical name, different APAAR ID. Accepted with a warning.</p>${fzT}</div>
+ <div class="card"><h3>Explainable risk ranking</h3><p class="sub">Open a programme to see which signals produced the score.</p>${rk}</div></div>`;
+}
+
+function vVerify(){
+ const V=S.V,sample=repo.filter(s=>s.prog.endsWith('/CSE')||s.prog.endsWith('/MBA')).slice(0,4);
+ const orgs={emp:['Orbit Systems Pvt Ltd (employer)',false],uni:['Registrar, Sample University (university)',false],reg:['State Technical Education Board (regulator)',true]};
+ let s1=`<div class="card"><h3>1. Verifier request</h3><p class="sub">A verifier names itself and states a purpose. Employers and universities need the student's consent. Statutory regulators follow a recorded legal basis instead.</p>
+ <div class="row"><label class="fld">Verifier<select class="f" id="v-org">${Object.keys(orgs).map(k=>`<option value="${k}" ${V.org===k?'selected':''}>${orgs[k][0]}</option>`).join('')}</select></label>
+ <label class="fld">Purpose<select class="f" id="v-pur">${['Employment verification','Admission transfer','Scholarship check','Regulatory inspection'].map(x=>`<option ${V.purpose===x?'selected':''}>${x}</option>`).join('')}</select></label>
+ <label class="fld">APAAR ID<input type="text" id="v-apaar" value="${esc(V.apaar)}" inputmode="numeric" placeholder="12-digit APAAR ID"></label>
+ <button class="btn p" data-act="vreq" style="align-self:flex-end">Send request</button></div>
+ <div class="row" style="margin-top:10px"><span style="font-size:12px;color:var(--muted)">Try a sample ID:</span>${sample.map(s=>`<button class="btn s mono" data-act="vpick" data-id="${s.apaar}">${grp(s.apaar)}</button>`).join('')}</div>
+ ${V.msg?`<p class="banner bad" style="margin-top:12px">${esc(V.msg)}</p>`:''}</div>`;
+ let s2='';
+ if(V.step===2){const s=repo.find(x=>x.apaar===V.apaar),isReg=orgs[V.org][1];
+  s2=isReg?`<div class="card"><h3>2. Statutory access</h3><p class="sub">No student consent step. The legal basis is recorded in the audit ledger and shown to the student afterwards.</p><div class="row"><label class="fld">Legal basis<input type="text" id="v-basis" value="Inspection order under the regulator's statute (reference required)" style="width:min(100%,460px)"></label><button class="btn p" data-act="issue-reg" style="align-self:flex-end">Record basis and issue</button></div></div>`:
+  `<div class="card"><h3>2. Student consent screen (simulated)</h3><p class="sub">This is what the student sees in their app or DigiLocker. Only ticked fields reach the verifier.</p><div class="phone"><b style="font-family:var(--serif);font-size:16px">${esc(orgs[V.org][0].split(' (')[0])} asks to confirm your enrolment</b><span style="color:var(--muted);font-size:13px">Purpose: ${esc(V.purpose)}</span><div>
+  ${[['name','Full name',1],['inst','Institution',1],['prog','Programme',1],['year','Admission year',1],['status','Current status',1]].map(x=>`<label class="tg"><span>${x[1]}</span><input type="checkbox" data-f="${x[0]}" checked></label>`).join('')}
+  <label class="tg" style="opacity:.6"><span>Seat type, category, date of birth</span><span style="font-size:12px">Never shared</span></label></div>
+  <label class="fld">Access lasts<select class="f" id="v-days"><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option></select></label>
+  <div class="row"><button class="btn p" data-act="allow">Allow</button><button class="btn" data-act="deny">Deny</button></div></div></div>`;
+ }
+ let s3='';
+ if(V.step===3&&V.cred){const c=V.cred,shown=c.shown||c.payload,rev=c.revoked;
+  s3=`<div class="card"><h3>3. Signed verification result</h3><p class="sub">The result is signed by AICTE. Anyone holding the public key can check it without calling the database, so tampering is visible.</p>
+  <div class="cred ${rev?'rev':''}"><div><div class="row" style="margin-bottom:10px">${rev?pill('bad','Consent revoked'):pill('ok','Verified')}<span class="mono">${esc(shown.vid)}</span></div><dl>${Object.keys(shown).filter(k=>!['vid','issuer'].includes(k)).map(k=>`<dt>${esc(k)}</dt><dd>${esc(shown[k])}</dd>`).join('')}<dt>issuer</dt><dd>${esc(shown.issuer)}</dd><dt>signature</dt><dd class="mono">${esc(c.sig.slice(0,34))}…</dd></dl></div><div style="text-align:center"><svg class="fp" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-label="Visual fingerprint">${c.fp}</svg><div style="font-size:11px;color:var(--muted);margin-top:4px">Visual fingerprint</div></div></div>
+  <div class="row" style="margin-top:12px"><button class="btn p" data-act="check">Check signature</button><button class="btn" data-act="tamper">Simulate tampering</button><button class="btn" data-act="revoke" ${rev?'disabled':''}>Student revokes consent</button></div>
+  ${c.check?`<p class="banner ${c.check.ok?'ok':'bad'}" style="margin-top:12px">${esc(c.check.t)}</p>`:''}</div>`;}
+ return head('Verification','Consent-first checks for employers, universities and regulators. Each step is written to the audit ledger.')+(HAS?'':'<p class="banner bad">Signing needs a secure browser context, which is not available here.</p>')+s1+s2+s3;
+}
+
+function vAudit(){
+ return head('Audit ledger','Every login, upload, decision and verification is chained to the one before it. Changing any past entry breaks every hash after it.',`<div class="row"><button class="btn p" data-act="chain">Verify chain</button><button class="btn" data-act="atamper">Tamper with an entry</button><button class="btn" data-act="arestore">Restore</button></div>`)+
+ (S.chain?`<p class="banner ${S.chain.ok?'ok':'bad'}">${esc(S.chain.t)}</p>`:'')+
+ `<div class="tw"><table class="t"><thead><tr><th class="n">#</th><th>Time (IST)</th><th>Actor</th><th>Action</th><th>Detail</th><th>Hash</th></tr></thead><tbody>${audit.slice().reverse().map(e=>`<tr${S.chain&&S.chain.at===e.seq?' style="background:var(--badbg)"':''}><td class="n">${e.seq}</td><td>${when(e.ts)}</td><td>${esc(e.actor)}<br><span style="color:var(--muted)">${esc(e.role)}</span></td><td class="mono">${esc(e.action)}</td><td>${esc(e.detail)}</td><td class="mono">${e.hash.slice(0,12)}…</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function vRules(){
+ const R2=[['E02','Invalid APAAR ID','Format and checksum','Reject'],['E03','APAAR ID not in registry','Registry lookup','Reject'],['E06','Date of birth mismatch','Compared with APAAR record','Reject'],['E04','Duplicate record','Same APAAR ID at the same institution','Reject'],['X07','Cross-institution enrolment','APAAR ID active elsewhere','Hold'],['X08','Intake exceeded','Running seat count per programme','Hold'],['W05','Probable duplicate identity','Same date of birth, similar name','Warn'],['E09/E10','Seat documents','FN passport, OCI card, NRI affidavit, scheme code','Reject or hold']];
+ return head('Rules','Thresholds are configuration, not code. A change is versioned, takes effect on the next validation and is written to the audit ledger.',`<div>${pill('info','Ruleset v'+rulesVer)}</div>`)+
+ `<div class="g2"><div class="card"><h3>Thresholds</h3><p class="sub">Applies to the next file validated in the Submit data view.</p><table class="t rules"><tbody>
+ <tr><td>Intake warning at (% of approved intake)</td><td><input type="number" id="r-warn" min="50" max="100" value="${rules.warnPct}"></td></tr>
+ <tr><td>Probable duplicate similarity (0 to 1)</td><td><input type="number" id="r-fz" min="0.5" max="1" step="0.01" value="${rules.fuzzy}"></td></tr>
+ <tr><td>Name match with APAAR (0 to 1)</td><td><input type="number" id="r-nm" min="0.5" max="1" step="0.01" value="${rules.nameMatch}"></td></tr>
+ <tr><td>Expected age range</td><td><input type="number" id="r-min" value="${rules.minAge}"> to <input type="number" id="r-max" value="${rules.maxAge}"></td></tr>
+ <tr><td>Check cross-institution enrolment</td><td><input type="checkbox" id="r-x" ${rules.cross?'checked':''}></td></tr>
+ <tr><td>Check probable duplicates</td><td><input type="checkbox" id="r-d" ${rules.dup?'checked':''}></td></tr>
+ <tr><td>Check approved intake</td><td><input type="checkbox" id="r-i" ${rules.intake?'checked':''}></td></tr></tbody></table><div class="row" style="margin-top:12px"><button class="btn p" data-act="rsave">Publish new version</button></div></div>
+ <div class="card"><h3>Active checks</h3><p class="sub">Each finding carries a code, a plain message and a fix, so an institution can correct a file in one pass.</p><div class="tw"><table class="t"><thead><tr><th>Code</th><th>Check</th><th>Method</th><th>Outcome</th></tr></thead><tbody>${R2.map(r=>`<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table></div></div></div>`;
+}
+
+function vCert(){
+ const P=scope(),ids=new Set(P.map(p=>p.id)),list=repo.filter(s=>ids.has(s.prog)).slice(0,60);
+ if(!S.cert||!list.find(s=>s.sid===S.cert.sid))S.cert={sid:list[0].sid};
+ const s=list.find(x=>x.sid===S.cert.sid),p=PROG[s.prog];
+ return head('Certificates','Degree-awarding bodies print the APAAR ID beside the student ID. The verification token on the certificate resolves to the signed record.',`<label class="fld">Student<select class="f" id="c-sel">${list.map(x=>`<option value="${x.sid}" ${x.sid===s.sid?'selected':''}>${esc(x.sid+' · '+x.name)}</option>`).join('')}</select></label>`)+
+ `<div class="card"><div class="cert"><div style="font:12px var(--mono);letter-spacing:.14em;color:#7A5A1E">SAMPLE UNIVERSITY (FICTIONAL, PROTOTYPE)</div><h2>Degree Certificate</h2><p style="margin-top:10px">This is to certify that</p><div class="nm">${esc(s.name)}</div><p>has completed the programme</p><p style="font-size:20px;margin-top:4px"><b>${esc(p.name)}</b></p><p style="margin-top:4px">at ${esc(INSTM[s.inst].name)}, admitted in 2026</p>
+ <div class="ids"><div><b>Student ID</b><span class="mono" style="font-size:14px">${esc(s.sid)}</span></div><div><b>APAAR ID</b><span class="apaar">${grp(s.apaar)}</span></div></div>
+ <div class="ft"><div>Verify this certificate with the token<br><span class="mono" id="c-tok" style="color:#1A1A1A">computing…</span></div><svg class="fp" id="c-fp" viewBox="0 0 7 7" shape-rendering="crispEdges" style="background:#fff;border-color:#C9B98F"></svg></div></div></div>`;
+}
+
+const RENDER={overview:vOverview,submit:vSubmit,cases:vCases,verify:vVerify,audit:vAudit,rules:vRules,certificate:vCert};
+function fpSvg(hex){let o='';for(let y=0;y<7;y++)for(let x=0;x<4;x++){const bit=parseInt(hex.charAt((y*4+x)%64),16)&(1<<((x+y)%4));if(bit){o+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#1B3A6B"/>`;if(x<3)o+=`<rect x="${6-x}" y="${y}" width="1" height="1" fill="#1B3A6B"/>`}}return o}
+function render(){
+ if(!TABS[S.role].some(t=>t[0]===S.tab))S.tab=TABS[S.role][0][0];
+ $('#tabs').innerHTML=TABS[S.role].map(t=>`<button role="tab" aria-selected="${t[0]===S.tab}" data-tab="${t[0]}">${t[1]}</button>`).join('');
+ $('#instWrap').hidden=S.role!=='inst';
+ $('#view').innerHTML=RENDER[S.tab]();
+ if(S.tab==='certificate'){const s=S.cert&&repo.find(x=>x.sid===S.cert.sid);if(s)sha(s.apaar+'|'+s.sid).then(h=>{const t=$('#c-tok');if(t){t.textContent='ASDMVS-'+h.slice(0,10).toUpperCase();$('#c-fp').innerHTML=fpSvg(h)}})}
+}
+
+/* ---------- actions ---------- */
+function sampleCsv(){
+ const P=scope(),cols='apaar,student_id,name,dob,gender,programme,seat_type,category,nationality,doc_ref';
+ const p1=P[1]||P[0],lo=P.slice().sort((a,b)=>(a.intake-ST[a.id].main)-(b.intake-ST[b.id].main))[0];
+ const line=r=>[r.apaar,r.sid,r.name,r.dob,r.gender,r.prog.split('/')[1],r.seat,r.cat,r.nat,r.doc].join(',');
+ const L=[];const mk=(p,seat)=>{const r=mkRow(p,seat);r.sid='NEW'+p.code+(sidN++);return r};
+ for(let i=0;i<3;i++)L.push(mk(p1,'Regular'));
+ L.push(mk(p1,'NRI'));
+ const dupSrc=mk(p1,'Regular');L.push(dupSrc);
+ const bad=mk(p1,'Regular');bad.apaar=alt(bad.apaar);L.push(bad);
+ const miss=mk(p1,'Regular');miss.apaar='';L.push(miss);
+ L.push(Object.assign({},dupSrc,{sid:dupSrc.sid+'-again'}));
+ const other=repo.find(s=>s.inst!==S.inst&&PROG[s.prog].level===p1.level);L.push(Object.assign({},other,{sid:'NEW'+p1.code+'X',inst:S.inst,prog:p1.id}));
+ const mm=mk(p1,'Regular');mm.name=mm.name.split(' ')[0]+' Kapoor';L.push(mm);
+ const dm=mk(p1,'Regular');dm.dob='2005-01-0'+(dm.dob.slice(-1)==='1'?'2':'1');L.push(dm);
+ const fn=mk(p1,'FN');fn.doc='';L.push(fn);
+ L.push(mk(p1,'OCI'));
+ const room=Math.max(0,lo.intake-ST[lo.id].main);
+ for(let i=0;i<Math.min(room+2,8);i++)L.push(mk(lo,'Regular'));
+ return cols+'\n'+L.map(line).join('\n');
+}
+function parseCsv(t){
+ const ls=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);if(!ls.length)return[];
+ return ls.filter(l=>!/^apaar,/i.test(l)).map(l=>{const c=l.split(',').map(x=>x.trim());return{apaar:c[0]||'',sid:c[1]||'',name:c[2]||'',dob:c[3]||'',gender:c[4]||'',inst:S.inst,prog:S.inst+'/'+(c[5]||'').toUpperCase(),seat:c[6]||'Regular',cat:c[7]||'',nat:c[8]||'India',doc:c[9]||''}});
+}
+const act={
+ validate(){S.csv=$('#csv').value;const rows=parseCsv(S.csv);if(!rows.length){S.res=null;render();return}S.res=engine(rows,repo);S.committed=false;render();logA(actor(),ROLEN[S.role],'UPLOAD_VALIDATE',S.inst+' validated '+rows.length+' rows');},
+ sample(){S.csv=sampleCsv();S.res=null;S.committed=false;render()},
+ commit(){const acc=S.res.accepted;repo.push(...acc);S.res.results.forEach(x=>{if(!x.student)quar.push({row:x.row,flags:x.flags,status:x.status})});S.committed=true;recompute();render();logA(actor(),ROLEN[S.role],'UPLOAD_COMMIT',S.inst+' committed '+acc.length+' accepted rows, '+S.res.results.filter(x=>!x.student).length+' sent to quarantine')},
+ approve(id){const rows=quar.filter(q=>q.row.prog===id&&q.flags.some(f=>f.code==='X08'));rows.forEach(q=>{repo.push(Object.assign({},q.row,{apaar:String(q.row.apaar).replace(/\s/g,''),flags:[{code:'A01',sev:'warn',msg:'Excess admission approved by AICTE',fix:''}]}));quar.splice(quar.indexOf(q),1)});S.cases[id]='approved';recompute();render();logA(actor(),'AICTE','EXCESS_APPROVED',id+': '+rows.length+' admissions above intake approved with justification')},
+ reject(id){S.cases[id]='rejected';render();logA(actor(),'AICTE','EXCESS_REJECTED',id+': held admissions rejected')},
+ notify(id){S.notified[id]=1;render();logA(actor(),'AICTE','DUPLICATE_NOTICE','Both institutions notified for claim '+id)},
+ vpick(id){S.V.apaar=id;render()},
+ vreq(){const V=S.V;V.org=$('#v-org').value;V.purpose=$('#v-pur').value;const a=$('#v-apaar').value.replace(/\s/g,'');V.apaar=a;V.msg='';
+  if(!/^\d{12}$/.test(a)||!vOk(a))V.msg='This is not a valid APAAR ID. Check the 12 digits.';
+  else if(!repo.find(s=>s.apaar===a))V.msg='No active enrolment record was found for this ID.';
+  if(V.msg){V.step=1;render();return}
+  V.step=2;V.cred=null;render();logA(actor(),ROLEN[S.role],'VERIFY_REQUEST',V.org.toUpperCase()+' requested '+maskA(a)+' for '+V.purpose)},
+ allow(){const f=[...document.querySelectorAll('[data-f]')].filter(x=>x.checked).map(x=>x.dataset.f);issue(f,+$('#v-days').value,null)},
+ deny(){S.V.step=1;S.V.msg='The student denied the request. No data was shared.';render();logA('student.app','STUDENT','CONSENT_DENIED',maskA(S.V.apaar)+' denied '+S.V.org.toUpperCase())},
+ 'issue-reg'(){issue(['name','inst','prog','year','status'],30,$('#v-basis').value)},
+ async check(){const c=S.V.cred;if(c.revoked){c.check={ok:false,t:'Revoked. The student withdrew consent, so this result must not be relied on.'};render();return}
+  const ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},KEY.publicKey,c.sigBuf,enc(JSON.stringify(c.shown||c.payload)));
+  c.check=ok?{ok:true,t:'Signature valid. The content is exactly what AICTE signed.'}:{ok:false,t:'Signature INVALID. The content was changed after signing.'};render();logA('verifier','VERIFIER','SIGNATURE_CHECK',c.payload.vid+': '+(ok?'valid':'invalid'))},
+ tamper(){const c=S.V.cred;c.shown=Object.assign({},c.payload);const k=c.shown.programme?'programme':Object.keys(c.shown).find(x=>!['vid','issuer','apaar','issued','expires'].includes(x));if(k)c.shown[k]='B.E. Computer Science and Engineering (edited)';c.check=null;render()},
+ revoke(){const c=S.V.cred;c.revoked=true;c.check=null;render();logA('student.app','STUDENT','CONSENT_REVOKED',c.payload.vid+' revoked by student')},
+ async chain(){let prev=ZERO;for(const e of audit){const h=await sha([prev,e.seq,e.ts,e.actor,e.role,e.action,e.detail].join('|'));if(h!==e.hash||e.prev!==prev){S.chain={ok:false,at:e.seq,t:'Chain broken at entry '+e.seq+'. Every entry after it is no longer trustworthy.'};render();return}prev=e.hash}S.chain={ok:true,t:'Chain intact. '+audit.length+' entries verified from the first to the latest.'};render()},
+ atamper(){const e=audit[Math.floor(audit.length/2)];if(e&&e._o===undefined){e._o=e.detail;e.detail=e.detail+' (edited)'}S.chain=null;render()},
+ arestore(){audit.forEach(e=>{if(e._o!==undefined){e.detail=e._o;delete e._o}});S.chain=null;render()},
+ rsave(){rules.warnPct=+$('#r-warn').value;rules.fuzzy=+$('#r-fz').value;rules.nameMatch=+$('#r-nm').value;rules.minAge=+$('#r-min').value;rules.maxAge=+$('#r-max').value;rules.cross=$('#r-x').checked;rules.dup=$('#r-d').checked;rules.intake=$('#r-i').checked;const v=rulesVer.split('.');rulesVer=v[0]+'.'+(+v[1]+1);render();logA(actor(),'AICTE','RULESET_PUBLISHED','Ruleset v'+rulesVer+' published')}
+};
+async function issue(fields,days,basis){
+ const V=S.V,s=repo.find(x=>x.apaar===V.apaar);if(!HAS)return;
+ if(!KEY)KEY=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},false,['sign','verify']);
+ const now=new Date(),pl={vid:'VR-'+Math.random().toString(36).slice(2,10).toUpperCase(),apaar:grp(s.apaar)};
+ if(fields.includes('name'))pl.name=s.name;if(fields.includes('inst'))pl.institution=INSTM[s.inst].name;if(fields.includes('prog'))pl.programme=PROG[s.prog].name;if(fields.includes('year'))pl.admissionYear=2026;if(fields.includes('status'))pl.status='Enrolled, year 1';
+ pl.purpose=V.purpose;pl.issued=now.toISOString().slice(0,10);pl.expires=new Date(now.getTime()+days*864e5).toISOString().slice(0,10);if(basis)pl.legalBasis=basis;pl.issuer='ASDMVS prototype key (demo)';
+ const sigBuf=await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},KEY.privateKey,enc(JSON.stringify(pl)));
+ const h=await sha(JSON.stringify(pl));
+ V.cred={payload:pl,sigBuf,sig:b64(sigBuf),fp:fpSvg(h),shown:null,check:null,revoked:false};V.step=3;render();
+ logA(basis?'regulator':'student.app',basis?'REGULATOR':'STUDENT',basis?'LEGAL_BASIS_RECORDED':'CONSENT_GRANTED',(basis?'Legal basis recorded. ':'Fields shared: '+fields.join(', ')+'. ')+'Valid '+days+' days for '+maskA(s.apaar));
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-tab]');if(t){S.tab=t.dataset.tab;render();return}
+ const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const f=act[b.dataset.act];if(f)f(b.dataset.id);
+});
+document.addEventListener('change',e=>{
+ const t=e.target;
+ if(t.id==='role'){S.role=t.value;S.tab=TABS[S.role][0][0];S.res=null;S.csv='';S.committed=false;S.V={step:1,apaar:'',org:'emp',purpose:'Employment verification',cred:null,msg:''};render();logA(actor(),ROLEN[S.role],'ROLE_SWITCH','Demo role changed to '+ROLEN[S.role])}
+ else if(t.id==='instSel'){S.inst=t.value;S.res=null;S.csv='';S.committed=false;render()}
+ else if(t.id==='c-sel'){S.cert={sid:t.value};render()}
+ else if(t.id==='file'&&t.files[0]){const fr=new FileReader();fr.onload=()=>{S.csv=String(fr.result);S.res=null;render()};fr.readAsText(t.files[0])}
+});
+$('#instSel').innerHTML=INST.map(i=>`<option value="${i.id}">${i.name}</option>`).join('');
+
+/* ---------- boot ---------- */
+(async()=>{
+ const t0=Date.now()-6*36e5;let n=0;const T=()=>t0+(n++)*7*6e4;
+ await logA('system','SYSTEM','RULESET_PUBLISHED','Ruleset v1.3 published with 8 active checks',T());
+ await logA('aicte.officer','AICTE','LOGIN','Officer sign-in, MFA verified',T());
+ for(const i of INST){const pp=PROGS.filter(p=>p.inst===i.id),sb=sum(pp,p=>ST[p.id].sub),ac=sum(pp,p=>ST[p.id].rp);await logA('nodal.'+i.id.toLowerCase(),'INSTITUTION','UPLOAD_COMMIT',i.id+' committed '+ac+' accepted rows, '+(sb-ac)+' sent to quarantine',T())}
+ await logA('system','SYSTEM','ANOMALY_SCAN','Risk scores refreshed for '+PROGS.length+' programmes',T());
+ render();
+})();
+render();
+})();
+</script>
+
+</body></html>
